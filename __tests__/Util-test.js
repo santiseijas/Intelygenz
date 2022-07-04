@@ -1,6 +1,5 @@
 import {getImageFromString, getDescription} from '../src/common/util';
 
-//test that test getImageFromString function
 test('getImageFromString', () => {
   const string =
     '<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"';
@@ -9,7 +8,7 @@ test('getImageFromString', () => {
     'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
   );
 });
-//test that test getDescription function
+
 test('getDescription', () => {
   const string = '<p>This is a test</p>';
   const result = getDescription(string);
