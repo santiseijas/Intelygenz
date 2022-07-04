@@ -1,5 +1,5 @@
 import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ShortedNew from '../components/ShortedNew';
 import useNews from '../hooks/useNews';
 import Filter from '../components/Filter';
@@ -8,6 +8,12 @@ export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [news, setNews] = useState([]);
   const {data, isLoading} = useNews();
+
+  useEffect(() => {
+    if (data) {
+      setNews(data.rss.channel.item);
+    }
+  }, [data]);
 
   const searchFilterFunction = text => {
     const dataDest = data.rss.channel.item;
@@ -30,14 +36,19 @@ export default function HomeScreen() {
         searchFilterFunction={text => searchFilterFunction(text)}
       />
       <View style={styles.container}>
-        {isLoading && <ActivityIndicator size={'large'} />}
-        {news.map((item, index) => {
-          return (
-            <View style={styles.item} key={index}>
-              <ShortedNew item={item} />
-            </View>
-          );
-        })}
+        {isLoading ? (
+          <ActivityIndicator size={'large'} />
+        ) : (
+          news.map((item, index) => {
+            return (
+              <View style={styles.item} key={index}>
+                <ShortedNew item={item} />
+              </View>
+            );
+          })
+        )}
+        {console.log(data)}
+        {}
       </View>
     </ScrollView>
   );
