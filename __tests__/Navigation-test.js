@@ -6,7 +6,7 @@ import news from '../src/redux/reducers/news';
 import Navigation from '../src/components/Navigation';
 import {QueryClient, QueryClientProvider} from 'react-query';
 
-describe('Home Test', () => {
+describe('Navigation Test', () => {
   let reducer = {reducer: news};
   const store = configureStore(reducer);
   const queryClient = new QueryClient();
