@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ShortedNew from '../components/ShortedNew';
@@ -14,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [news, setNews] = useState([]);
-  const {data, isLoading} = useNews();
+  const {data, isLoading, isSuccess} = useNews();
 
   useEffect(() => {
     if (data) {
@@ -22,7 +23,7 @@ export default function HomeScreen() {
     } else {
       const getData = async () => {
         try {
-          const jsonValue = await AsyncStorage.getItem('@storage_Key');
+          const jsonValue = await AsyncStorage.getItem('news');
           return jsonValue != null ? JSON.parse(jsonValue) : null;
         } catch (e) {
           return Alert.alert('Error', 'Error');
@@ -35,7 +36,7 @@ export default function HomeScreen() {
   }, [data]);
 
   const searchFilterFunction = text => {
-    const dataDest = data.rss.channel.item;
+    const dataDest = news.rss.channel.item;
     if (text) {
       const filter = dataDest.filter(item => {
         return item.title.toLowerCase().includes(text.toLowerCase());
@@ -55,9 +56,8 @@ export default function HomeScreen() {
         searchFilterFunction={text => searchFilterFunction(text)}
       />
       <View style={styles.container}>
-        {isLoading ? (
-          <ActivityIndicator size={'large'} />
-        ) : (
+        {isLoading && !isSuccess && <ActivityIndicator size={'large'} />}
+        {!isLoading && news && news.length > 0 ? (
           news.map((item, index) => {
             return (
               <View style={styles.item} key={index}>
@@ -65,6 +65,12 @@ export default function HomeScreen() {
               </View>
             );
           })
+        ) : (
+          <View style={styles.container}>
+            {!isLoading && !isSuccess && (
+              <Text>No hay noticias para mostrar</Text>
+            )}
+          </View>
         )}
       </View>
     </ScrollView>

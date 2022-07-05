@@ -8,7 +8,7 @@ const Filter = ({searchText, searchFilterFunction}) => {
         style={styles.textInputStyle}
         onChangeText={text => searchFilterFunction(text)}
         value={searchText}
-        placeholder="Search"
+        placeholder="Buscar"
       />
     </View>
   );

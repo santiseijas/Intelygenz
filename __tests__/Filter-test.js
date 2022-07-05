@@ -5,7 +5,7 @@ import Filter from '../src/components/Filter';
 describe('Filter component', () => {
   it('should render correctly', () => {
     const {getByPlaceholderText} = render(<Filter />);
-    const textInput = getByPlaceholderText('Search');
+    const textInput = getByPlaceholderText('Buscar');
     expect(textInput).toBeTruthy();
   });
 
@@ -14,7 +14,7 @@ describe('Filter component', () => {
     const {getByPlaceholderText} = render(
       <Filter searchFilterFunction={searchFilterFunction} />,
     );
-    const textInput = getByPlaceholderText('Search');
+    const textInput = getByPlaceholderText('Buscar');
     fireEvent.changeText(textInput, 'test');
     expect(searchFilterFunction).toHaveBeenCalled();
   });
