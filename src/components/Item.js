@@ -8,7 +8,8 @@ export default function Item(props) {
       <Text style={styles.title}>{props.item.title}</Text>
       <Text numberOfLines={props.maxLines}>
         {props.maxLines
-          ? getDescription(props.item.description, /\n/g)
+          ? //if props.maxLines is declared remove jump lines of description for only show 2 lines max and if not just replace the html tags
+            getDescription(props.item.description, /\n/g)
           : props.item.description.replace(/<[^>]*>?/gm, '')}
       </Text>
       <Image

@@ -16,7 +16,7 @@ export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [news, setNews] = useState([]);
   const {data, isLoading, isSuccess} = useNews();
-
+  //the data is the news from the API, is there isn't internet connection, there will not be data and it will get the news from the cache
   useEffect(() => {
     if (data) {
       setNews(data.rss.channel.item);
@@ -34,7 +34,7 @@ export default function HomeScreen() {
       });
     }
   }, [data]);
-
+  //function that filter the news by the search text
   const searchFilterFunction = text => {
     const dataDest = news.rss.channel.item;
     if (text) {

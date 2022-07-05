@@ -18,6 +18,7 @@ const DetailedNew = props => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
+          //open url in browser
           Linking.openURL(props.item.link);
         }}>
         <Text style={styles.text}>Ver en el navegador</Text>
