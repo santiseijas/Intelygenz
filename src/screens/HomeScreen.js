@@ -1,8 +1,15 @@
-import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ShortedNew from '../components/ShortedNew';
 import useNews from '../hooks/useNews';
 import Filter from '../components/Filter';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
@@ -12,6 +19,18 @@ export default function HomeScreen() {
   useEffect(() => {
     if (data) {
       setNews(data.rss.channel.item);
+    } else {
+      const getData = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem('@storage_Key');
+          return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch (e) {
+          return Alert.alert('Error', 'Error');
+        }
+      };
+      getData().then(storage => {
+        setNews(storage);
+      });
     }
   }, [data]);
 

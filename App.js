@@ -4,12 +4,11 @@ import Navigation from './src/components/Navigation';
 import createStore from './src/redux/store';
 import {QueryClient, QueryClientProvider} from 'react-query';
 
-export const initialState = {
-  news: [],
-};
+const queryClient = new QueryClient({
+  defaultOptions: {queries: {cacheTime: 1000 * 60 * 60 * 24}},
+});
 
-const queryClient = new QueryClient();
-const store = createStore(initialState);
+const store = createStore();
 
 export default function App() {
   console.disableYellowBox = true;
