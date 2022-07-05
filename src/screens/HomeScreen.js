@@ -47,8 +47,6 @@ export default function HomeScreen() {
             );
           })
         )}
-        {console.log(data)}
-        {}
       </View>
     </ScrollView>
   );
