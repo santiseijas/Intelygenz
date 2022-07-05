@@ -15,8 +15,8 @@ function useNews() {
     const textResponse = await response.text();
     let obj = parser.parse(textResponse);
     dispatch({type: 'ADD_NEWS', payload: obj.rss.channel.item});
-    await storeData(obj);
-    return obj;
+    await storeData(obj.rss.channel.item);
+    return obj.rss.channel.item;
   };
   //function to store data in the cache of the mobile to let app works is there are not internet connection
   const storeData = async value => {

@@ -16,10 +16,12 @@ export default function HomeScreen() {
   const [search, setSearch] = useState('');
   const [news, setNews] = useState([]);
   const {data, isLoading, isSuccess} = useNews();
+  const [allNews, setAllNews] = useState([]);
   //the data is the news from the API, is there isn't internet connection, there will not be data and it will get the news from the cache
   useEffect(() => {
     if (data) {
-      setNews(data.rss.channel.item);
+      setNews(data);
+      setAllNews(data);
     } else {
       const getData = async () => {
         try {
@@ -31,12 +33,14 @@ export default function HomeScreen() {
       };
       getData().then(storage => {
         setNews(storage);
+        setAllNews(storage);
       });
     }
   }, [data]);
+
   //function that filter the news by the search text
   const searchFilterFunction = text => {
-    const dataDest = news.rss.channel.item;
+    const dataDest = allNews;
     if (text) {
       const filter = dataDest.filter(item => {
         return item.title.toLowerCase().includes(text.toLowerCase());
@@ -56,7 +60,9 @@ export default function HomeScreen() {
         searchFilterFunction={text => searchFilterFunction(text)}
       />
       <View style={styles.container}>
+        {/* if is loading, show the Activity indicator */}
         {isLoading && !isSuccess && <ActivityIndicator size={'large'} />}
+        {/* if is success and news, show the news */}
         {!isLoading && news && news.length > 0 ? (
           news.map((item, index) => {
             return (
@@ -67,9 +73,8 @@ export default function HomeScreen() {
           })
         ) : (
           <View style={styles.container}>
-            {!isLoading && !isSuccess && (
-              <Text>No hay noticias para mostrar</Text>
-            )}
+            {/* if is not loading and there aren´t any news, show the text */}
+            {!isLoading && !news && <Text>No hay noticias para mostrar</Text>}
           </View>
         )}
       </View>
